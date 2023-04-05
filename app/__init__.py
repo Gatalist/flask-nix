@@ -7,6 +7,7 @@ from flask_admin import Admin
 
 from .settings import Config
 
+# print(Config.MEDIA_PATH)
 
 def create_app():
     app = Flask(__name__)
@@ -24,6 +25,7 @@ db = SQLAlchemy(app)
 # class instance Migrate
 migrate = Migrate(app, db)
 
+from app import views
 
 from .models import Genres, Users, Movies, Directors, Ratings
 from .admin import GenreView, UserView, MovieView, RatingView, DirectorView
@@ -36,12 +38,6 @@ admin.add_view(GenreView(Genres, db.session))
 admin.add_view(MovieView(Movies, db.session))
 admin.add_view(RatingView(Ratings, db.session))
 admin.add_view(DirectorView(Directors, db.session))
-
-
-
-@app.route('/')
-def hello():
-    return 'Hello my dir friends'
 
 
 @app.shell_context_processor

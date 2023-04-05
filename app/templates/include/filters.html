@@ -1,0 +1,22 @@
+<div>
+    <range-selector
+      id="rangeSelector2"
+      min-label="Minimum"
+      max-label="Maximum"
+      min-range="1990"
+      max-range="2022"
+      slider-color="#6b5b95"
+    />
+</div>
+
+<form>
+    <fieldset class="row mb-3">
+        {% for genre in movie_genres %}
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="{{genre.id}}" checked disabled>
+                <label class="form-check-label" for="{{genre.id}}">{{genre.name}}</label>
+            </div>
+        {% endfor %}
+    </fieldset>
+    <button type="submit" class="btn btn-primary">Sign in</button>
+</form>

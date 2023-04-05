@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <br>
+    <h1>{{title}}</h1>
+
+    <div class="btn-group-vertical">
+        {% for genre in movie_genres %}
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="{{genre.id}}">
+                <label class="form-check-label" for="{{genre.id}}">{{genre.name}}</label>
+            </div>
+        {% endfor %}
+    </div>
+
+
+
+
+
+    <form method="POST" action="{{ url_for('view_movie') }}" class="row row-cols-1 row-cols-md-4 g-2">
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">Sorted  </span>
+                <select name="comp_select" class="selectpicker form-control" id="sorted_movie">
+                    {% for item_cort in movies_sorted %}
+                        {% if item_cort.value == selected_item_sorted %} 
+                            <option selected name="sorted" value="{{item_cort.value}}">{{item_cort.text}}</option>
+                        {% else %}
+                            <option name="sorted" value="{{item_cort.value}}">{{item_cort.text}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-default">Go</button>
+        </div>
+    </form>
+
+
+
+
+
+
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        {% for movie in movies %}
+            <div class="col">
+                <div class="card">
+                    <img src="{{movie.poster}}" width=253, height=370, class="card-img-top" alt="{{movie.title}}">
+                    <div class="card-body">
+                        <a href="#" class="card-link"><h5 class="card-title"><b>{{movie.title}}</b></h5></a>
+                        <p class="card-text">rating: {{movie.rating}}</p>
+                        <p class="card-text">reliase: {{movie.reliase}}</p>
+                        <p class="card-text">director: {{movie.director}}</p>
+                        <p class="card-text">genres: {% for genre in movie.genres %} {{genre}} {% endfor %}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+        $('#sorted_movie').on('change', function() {
+            let csrf_token = getCookie('csrftoken');
+            let url = "/";
+            let data = {};
+            data["select"] = this.value;
+            data["csrfmiddlewaretoken"] = csrf_token;
+            console.log(data, url)
+            ajaxSendServer(data, url);
+        });
+
+        // ajax запрос на сервер
+        let ajaxSendServer = (data, url) => {
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: data,
+            cashe: false,
+            success: function(data) {
+            console.log("OK");
+            window.location.reload();
+            },
+            error: function() {
+                console.log("error");
+            }
+        })
+        };
+
+        function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+        }
+    </script>
+
+
+
+
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    $('#movie_sorted').on('click', 'a', function(evt) {
+        let csrf_token = getCookie('csrftoken');
+        let url = "/";
+        let data = {};
+        data["sorted"] = this.name;
+        data["csrfmiddlewaretoken"] = csrf_token;
+        console.log(data, url)
+        ajaxSendServer(data, url);
+    });
+
+    // ajax запрос на сервер
+    let ajaxSendServer = (data, url) => {
+        $.ajax({
+            url: url,
+            type: 'GET',
+            data: data,
+            cashe: false,
+            success: function(data) {
+                console.log("OK");
+                console.log(response);
+                if (response.redirected) {
+                    window.location = response.url
+                }
+            },
+            error: function() {
+                console.log("error");
+            }
+        })
+    };
+
+
+    const room_url = {{ url_for("room_detail", id=room.id)|tojson }}
+    fetch(room_url)
+        .then(response => response.json())
+        .then(data => {
+            // data is a parsed JSON object
+        })
+
+
+
+
+    function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+    }
+</script>
+{% endblock content %}
