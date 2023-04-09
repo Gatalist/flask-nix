@@ -27,7 +27,7 @@ migrate = Migrate(app, db)
 
 from app import views
 
-from .models import Genres, Users, Movies, Directors, Ratings
+from .models import Genres, Users, Movies, Directors, Ratings, Reliase
 from .admin import GenreView, UserView, MovieView, RatingView, DirectorView
 
 # class instance Admin panel flask
@@ -38,7 +38,7 @@ admin.add_view(GenreView(Genres, db.session))
 admin.add_view(MovieView(Movies, db.session))
 admin.add_view(RatingView(Ratings, db.session))
 admin.add_view(DirectorView(Directors, db.session))
-
+admin.add_view(DirectorView(Reliase, db.session))
 
 @app.shell_context_processor
 def make_shell_context():

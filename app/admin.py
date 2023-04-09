@@ -65,4 +65,8 @@ class DirectorView(ModelView):
     pass
     # form_columns = ['name',]
 
+class ReliaseView(ModelView):
+    pass
+    # form_columns = ['name',]
+
 

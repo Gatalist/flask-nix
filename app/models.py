@@ -35,6 +35,15 @@ class Ratings(db.Model):
         return f'{self.star}'
 
 
+class Reliase(db.Model):
+    __tablename__ = 'reliase'
+    id = db.Column(db.Integer, primary_key=True)
+    year = db.Column(db.Integer, index=True, unique=True)
+
+    def __repr__(self):
+        return f'{self.year}'
+
+
 class Users(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -49,7 +58,7 @@ class Movies(db.Model):
     __tablename__ = 'movies'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(64), index=True, nullable=False)
-    reliase = db.Column(db.Integer)
+    reliase_id = db.Column(db.Integer, db.ForeignKey('reliase.id'))
     director_id = db.Column(db.Integer, db.ForeignKey('directors.id', ondelete="CASCADE"), default='unknown', nullable=False)
     description = db.Column(db.Text())
     rating_id = db.Column(db.Integer, db.ForeignKey('ratings.id'))
@@ -60,15 +69,11 @@ class Movies(db.Model):
     genres = db.relationship('Genres', secondary=genre_movie,
         backref=db.backref('movies', lazy='dynamic'))
     
-    # director = db.relationship('Directors', cascade='all,delete-orphan')
+    reliase = db.relationship('Reliase', lazy='joined')
     director = db.relationship('Directors', cascade='save-update, merge, delete', passive_deletes=True,)
     
     user = db.relationship('Users')
     rating = db.relationship('Ratings', lazy='joined')
-
-    # __table_args__ = (
-    #     db.Index('title', "reliase", "rating"),
-    # )
 
     def __repr__(self):
         return self.title

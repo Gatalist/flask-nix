@@ -1,16 +1,24 @@
 <div class="card-group">
-    {% for movie in movies %}
-        <div class="col-3 px-1">
-            <div class="card mt-5">
-                <img src="{{movie.poster}}" width=253, height=370, class="card-img-top" alt="{{movie.title}}">
-                <div class="card-body">
-                    <a href="#" class="card-link"><h5 class="card-title"><b>{{movie.title}}</b></h5></a>
-                    <p class="card-text">rating: {{movie.rating}}</p>
-                    <p class="card-text">reliase: {{movie.reliase}}</p>
-                    <p class="card-text">director: {{movie.director}}</p>
-                    <p class="card-text">genres: {% for genre in movie.genres %} {{genre}} {% endfor %}</p>
+    {% if movies %}
+        {% for movie in movies %}
+            <div class="col-3 px-1">
+                <div class="card mt-5">
+                    <img src="{{movie.poster}}" width=253, height=370, class="card-img-top" alt="{{movie.title}}">
+                    <div class="card-body">
+                        <a href="#" class="card-link"><h5 class="card-title"><b>{{movie.title}}</b></h5></a>
+                        <p class="card-text">rating: {{movie.rating}}</p>
+                        <p class="card-text">reliase: {{movie.reliase}}</p>
+                        <p class="card-text">director: {{movie.director}}</p>
+                        <p class="card-text">genres: {% for genre in movie.genres %} {{genre}} {% endfor %}</p>
+                    </div>
                 </div>
             </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-10">
+            <div class="d-flex justify-content-center" style='min-height:400px'>
+                Not movies
+            </div>
         </div>
-    {% endfor %}
+    {% endif %}
 </div>
