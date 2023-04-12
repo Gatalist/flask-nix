@@ -1,5 +1,5 @@
 <div class="card-group">
-    {% if movies %}
+    {% if movies.count() > 0 %}
         {% for movie in movies %}
             <div class="col-3 px-1">
                 <div class="card mt-5">

@@ -10,7 +10,7 @@
         <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown" id="movie_sorted">
             {% for item_cort in movies_sorted %}
                 <li>
-                    <form method="post" action="{{ url_for('movie_filter') }}" class="d-flex"> 
+                    <form method="post" action="{{ url_for('view_movie') }}" class="d-flex"> 
                         <input type="hidden" name="sorted" value="{{item_cort.value}}"/>
                         <button class="dropdown-item" type="submit">{{item_cort.text}}</button>
                     </form>

@@ -66,14 +66,11 @@ class Movies(db.Model):
     poster = db.Column(db.String())
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
-    genres = db.relationship('Genres', secondary=genre_movie,
-        backref=db.backref('movies', lazy='dynamic'))
-    
-    reliase = db.relationship('Reliase', lazy='joined')
-    director = db.relationship('Directors', cascade='save-update, merge, delete', passive_deletes=True,)
-    
+    genres = db.relationship('Genres', secondary=genre_movie, backref=db.backref('movies', lazy='dynamic'))
+    reliase = db.relationship('Reliase', backref=db.backref('movies', lazy='dynamic'))
+    director = db.relationship('Directors', backref=db.backref('movies', lazy='dynamic')) 
     user = db.relationship('Users')
-    rating = db.relationship('Ratings', lazy='joined')
+    rating = db.relationship('Ratings', backref=db.backref('movies', lazy='dynamic'))
 
     def __repr__(self):
         return self.title
