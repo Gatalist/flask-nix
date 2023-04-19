@@ -22,6 +22,7 @@ class Config(object):
     STATIC_PATH = os.path.join(ROOT_PATH, 'static')
     TEMPLATES_PATH = os.path.join(ROOT_PATH, 'templates')
     MEDIA_PATH = os.path.join(STATIC_PATH, 'media')
+    PAGINATE_ITEM_IN_PAGE: int = 10
 
     # ALLOWED_EXTENSIONS = ["jpg", "png", "jpeg"]
     # MAX_CONTENT_LENGTH = 2000 * 1024  # 1 mb

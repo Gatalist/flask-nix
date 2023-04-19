@@ -3,7 +3,7 @@ from flask import render_template
 from flask import request
 from .services import is_activate_filter, is_active_sorted, activate_filter, search_movie
 from .models import Reliase, Genres, Directors
-
+from app.settings import Config
 
 movie = Blueprint('app_movies', __name__, template_folder='templates', static_folder='static')
 
@@ -33,14 +33,23 @@ def view_movie():
             "is_active_genre": is_active_genre,
             "is_active_directors": is_active_directors,
         }
+    
+    page = request.args.get('page')
+    if page  and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
 
     q = request.args.get('q')
     if q:
         movies = search_movie(q)
+        pages = movies.paginate(page=page, per_page=Config.PAGINATE_ITEM_IN_PAGE)
 
         context["movies"] = movies
+
         print(context)
-        return render_template('search.html', **context, q=q)
+        return render_template('search.html', **context, pages=pages, q=q)
 
     is_sorted = request.form.get('sorted')
     print("SORTED -------\n", is_sorted, "\n-----")
@@ -51,8 +60,10 @@ def view_movie():
         movies = activate_filter(is_active_reliase, is_active_genre, is_active_directors)
         print("MOVIES -------\n", movies, "\n-----")
     
-    
+    pages = movies.paginate(page=page, per_page=Config.PAGINATE_ITEM_IN_PAGE)
+    print(pages)
     context["movies"] = movies
+
     print(context)
-    return render_template('index.html', **context)
+    return render_template('index.html', **context, pages=pages)
 
