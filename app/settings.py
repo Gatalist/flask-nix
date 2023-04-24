@@ -3,7 +3,9 @@ import os
 
 class Config(object):
     DEBUG: bool = True
-    HOST: str = "127.0.0.1"
+    # HOST: str = "127.0.0.1"
+    # HOST: str = "192.168.1.180"
+    HOST: str = "0.0.0.0"
     PORT: int = 5000
 
     db_uri: str = 'postgresql'
@@ -23,6 +25,8 @@ class Config(object):
     TEMPLATES_PATH = os.path.join(ROOT_PATH, 'templates')
     MEDIA_PATH = os.path.join(STATIC_PATH, 'media')
     PAGINATE_ITEM_IN_PAGE: int = 10
+
+    
 
     # ALLOWED_EXTENSIONS = ["jpg", "png", "jpeg"]
     # MAX_CONTENT_LENGTH = 2000 * 1024  # 1 mb
