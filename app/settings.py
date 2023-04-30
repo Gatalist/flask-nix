@@ -26,17 +26,37 @@ class Config(object):
     MEDIA_PATH = os.path.join(STATIC_PATH, 'media')
     PAGINATE_ITEM_IN_PAGE: int = 10
 
+
+    # URLs
+    SECURITY_URL_PREFIX = "/admin"
+    SECURITY_LOGIN_URL = "/login/"
+    SECURITY_LOGOUT_URL = "/logout/"
+    SECURITY_POST_LOGIN_VIEW = "/admin/"
+    SECURITY_POST_LOGOUT_VIEW = "/admin/"
+    SECURITY_POST_REGISTER_VIEW = "/admin/"
+
+    # Включает регистрацию
+    SECURITY_REGISTERABLE = True
+    SECURITY_REGISTER_URL = "/register/"
+    SECURITY_SEND_REGISTER_EMAIL = False
+
+    # Включет сброс пароля
+    SECURITY_RECOVERABLE = True
+    SECURITY_RESET_URL = "/reset/"
+    SECURITY_SEND_PASSWORD_RESET_EMAIL = True
+
+    # Включает изменение пароля
+    SECURITY_CHANGEABLE = True
+    SECURITY_CHANGE_URL = "/change/"
+    SECURITY_SEND_PASSWORD_CHANGE_EMAIL = False
     
 
     # ALLOWED_EXTENSIONS = ["jpg", "png", "jpeg"]
     # MAX_CONTENT_LENGTH = 2000 * 1024  # 1 mb
 
 
-    # number_items_page = 3
-    # NUMBER_ITEMS_PAGE = 3
-
-    # SECURITY_PASSWORD_SALT = 'flask-solt-security'
-    # SECURITY_PASSWORD_HASH = 'bcrypt'
+    SECURITY_PASSWORD_SALT = 'nix-solt'
+    SECURITY_PASSWORD_HASH = 'bcrypt'
 
 
 # class ProdConfig(Config):

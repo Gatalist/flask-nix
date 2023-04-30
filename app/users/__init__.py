@@ -1,8 +1,8 @@
-from flask import Blueprint, render_template, session, request, flash, redirect, url_for, jsonify
+from flask import Blueprint, render_template, flash, redirect, url_for, jsonify, session, request
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.urls import url_parse
-from flask_login import login_required, login_user, current_user, logout_user
-from app import db
+from flask_login import login_required, login_user, logout_user, current_user
+from app import db, bcrypt
 from app import login_manager
 from .models import Users
 
@@ -63,55 +63,37 @@ def register():
 def login():
     if request.method == 'POST':
         email = request.form['email']
-        pwd = request.form['pwd-1']
+        password = request.form['pwd-1']
         remember = request.form['remember']
-        print(email, pwd)
+        print(email, password)
 
         user = Users.query.filter_by(email=email).first()
 
-        if user is None or not check_password_hash(user.pwd, pwd):
+        if not user:
             flash("No correct email or password", "error_save")
             return redirect(url_for('app_users.login'))
         
-        login_user(user, remember=remember)
-        next_page = request.args.get('next')
-        if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('app_movies.view_movie')
+        if check_password_hash(user.password, password):
+            if remember:
+                login_user(user, remember=remember)
+            else:
+                login_user(user)
+            next_page = request.args.get('next')
+            if not next_page or url_parse(next_page).netloc != '':
+                next_page = url_for('app_movies.view_movie')
 
-        return redirect(next_page)
+            return redirect(next_page)
+        else:
+            flash("No correct email or password", "error_save")
+            return redirect(url_for('app_users.login'))
     
     return render_template('login.html', form=request.form)
 
 
-
-
-
-# @users.route('/profile', methods=["POST", "GET"])
-# def profile():
-    # if request.method == 'POST':
-    #     email = request.form['email']
-    #     pwd = request.form['pwd-1']
-    #     # remember = request.form['remember']
-    #     print(email, pwd)
-
-    #     user = Users.query.filter_by(email=email).first()
-    #     if user:
-    #         print(user)
-    #     else:
-    #         print("no user")
-
-        # check_password_hash(user.pwd, pwd)
-        
-        
-    # session.permanent = True
-    # return render_template('profile.html')
-
-
-
-# @app.route('/user/<name>', methods=['GET', 'POST'])
-# @login_required
-# def user(name):
-#     user_id = current_user.id
-#     user = User.query.filter(User.id==user_id).first()
-#     movies = Movie.query.filter(Movie.user_id==user_id).all()
-#     return render_template('user.html', user=user, movies=movies)
+@users.route('/profile', methods=['GET', 'POST'])
+@login_required
+def user():
+    user_id = current_user.id
+    user = Users.query.filter_by(id==user_id).first()
+    
+    return render_template('user.html', user=user)
