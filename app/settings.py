@@ -4,21 +4,23 @@ import os
 class Config(object):
     DEBUG: bool = True
     # HOST: str = "127.0.0.1"
-    # HOST: str = "192.168.1.180"
     HOST: str = "0.0.0.0"
+    
     PORT: int = 5000
 
     db_uri: str = 'postgresql'
     db_user: str = 'user_db'
     db_pass: str = 'xEhs5hU26nDNdeC'
-    db_name: str = 'nix_db' # container_name to docker
+    db_name: str = 'nix_db' # data base name
+    db_addr: str = 'db_nix' # container_name to docker
 
     # TESTING = False
     # CSRF_ENABLED = True
 
     SECRET_KEY = '$%UHGD#O%$^htrfgolk546-fd[ssk;435gf'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = f'{db_uri}://{db_user}:{db_pass}@localhost/{db_name}'
+    # SQLALCHEMY_DATABASE_URI = f'{db_uri}://{db_user}:{db_pass}@localhost/{db_name}'
+    SQLALCHEMY_DATABASE_URI = f'{db_uri}://{db_user}:{db_pass}@{db_addr}/{db_name}'
     
     ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
     STATIC_PATH = os.path.join(ROOT_PATH, 'static')
