@@ -9,9 +9,8 @@ services:
             POSTGRES_USER: user_db
             POSTGRES_PASSWORD: xEhs5hU26nDNdeC
             POSTGRES_DB: nix_db
-            PGDATA: ./postgres/database/data:/var/lib/postgresql/data
         volumes:
-            - ./postgres:/var/lib/postgresql/data
+            - ./postgres/database:/var/lib/postgresql/data
             - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
 
     pgadmin:
@@ -27,7 +26,7 @@ services:
     flask:
         # docker container exec -it flask_app /bin/bash     | open container -> create to migrate and add data
         container_name: flask_app
-        build: ./
+        build: ./app
         # command: python run.py
         command: gunicorn --bind 0.0.0.0:5000 run:app
         restart: always
@@ -35,6 +34,8 @@ services:
             - "5000:5000"
         depends_on:
             - postgres_db
+        volumes:
+            - ./app:/home/app
 
     nginx:
         build: ./nginx
@@ -43,5 +44,3 @@ services:
         depends_on:
             - flask
 
-volumes:
-  postgres:
