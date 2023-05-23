@@ -1,0 +1,8 @@
+<form action="{{ url_for('app_movies.view_movie') }}" class="d-flex">
+    {% if q %}
+        <input class="form-control me-2" type="search" placeholder="Search" name="q" value="{{ request.args.get('q', '') }}" aria-label="Search">
+    {% else %}
+        <input class="form-control me-2" type="search" placeholder="Search" name="q" value="{{ request.args.get('q', '') }}" aria-label="Search">
+    {% endif %}
+    <button class="btn btn-outline-success" type="submit">Search</button>
+</form>
