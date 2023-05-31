@@ -21,18 +21,15 @@ def activate_filter(active_reliase, active_genre, active_directors):
     
     if active_reliase:
         movies_reliase = movies.join(Reliase).filter(Reliase.id.in_(active_reliase))
-        # if movies_reliase:
         movies = movies_reliase
 
     if active_genre:
         movies_genre = movies.join(genre_movie).join(Genres).options(joinedload(
                 Movies.genres)).filter(Genres.id.in_(active_genre))
-        # if movies_genre:
         movies = movies_genre
     
     if active_directors:
         movies_directors = movies.join(Directors).filter(Directors.id.in_(active_directors))
-        # if movies_directors:
         movies = movies_directors
 
     return movies

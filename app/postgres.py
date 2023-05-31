@@ -4,6 +4,10 @@ from app.movies.models import Movies, Directors, Genres, Ratings, Reliase
 from app.users.models import Users
 
 
+while True:
+    if db.session:
+        break
+
 def create_user(name:str, email:str):
     try:
         user = Users(username=name, email=email)
@@ -116,18 +120,38 @@ def create_movie(movies):
         genre_add_to_movie(new_mov_id, genres)
 
 
-def create_all_data():
+def all_create_user():
     create_user('Alex', 'kostenko.alexander2012@gmail.com')
     create_user('Anna', 'anna@gmail.com')
     create_user('Ivan', 'ivan@gmail.com')
     create_user('Admin', 'admin@gmail.com')
     create_user('Nikolay', 'nikolay@gmail.com')
-        
-    insert_dependens_for_movie("Reliase", get_feature_to_movies("reliase", movies_list))
-    insert_dependens_for_movie("Ratings", get_feature_to_movies("Rating", movies_list))
-    insert_dependens_for_movie("Directors", get_feature_to_movies("Director", movies_list))
-    insert_dependens_for_movie("Genres", get_feature_to_movies("Genres", movies_list))
 
-    create_movie(movies_list)
+
+def create_all_data():
+    try:
+        all_create_user()
+    except:
+        pass
+    try:
+        insert_dependens_for_movie("Reliase", get_feature_to_movies("reliase", movies_list))
+    except:
+        pass
+    try:
+        insert_dependens_for_movie("Ratings", get_feature_to_movies("Rating", movies_list))
+    except:
+        pass
+    try:
+        insert_dependens_for_movie("Directors", get_feature_to_movies("Director", movies_list))
+    except:
+        pass
+    try:
+        insert_dependens_for_movie("Genres", get_feature_to_movies("Genres", movies_list))
+    except:
+            pass
+    try:
+        create_movie(movies_list)
+    except:
+        pass
 
 create_all_data()

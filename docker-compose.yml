@@ -24,10 +24,10 @@ services:
             - "5050:80"
 
     flask:
-        # docker container exec -it flask_app /bin/bash     | open container -> create to migrate and add data
+        # docker container exec -it flask_app /bin/bash     
+        # open container -> create to migrate and add data
         container_name: flask_app
         build: ./app
-        # command: python run.py
         command: gunicorn --bind 0.0.0.0:5000 run:app
         restart: always
         ports:

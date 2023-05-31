@@ -6,6 +6,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 from app.settings import Config
+from .api import apispec_docs
 
 
 
@@ -34,17 +35,8 @@ db = SQLAlchemy(app)
 # class instance Migrate
 migrate = Migrate(app, db, compare_type=True)
 
-
-# from app.admin import admin_panel
-from app.admin.routes import app_admin
-
-from app.movies import movie
-from app.users import users
-
-
-# app.register_blueprint(app_admin, url_prefix="/admin")
-app.register_blueprint(movie, url_prefix='/')
-app.register_blueprint(users, url_prefix='/user')
+# # docs api
+apispec_docs(app)
 
 
 @app.shell_context_processor
