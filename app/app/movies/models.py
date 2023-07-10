@@ -61,12 +61,10 @@ class Movies(db.Model):
     rating = db.relationship('Ratings', backref=db.backref('movies'), passive_deletes="all")
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='SET NULL'))
-    user = db.relationship('Users', backref=db.backref('movies'), passive_deletes="all", )
+    user = db.relationship('Users', backref=db.backref('movies'), passive_deletes="all")
 
     genres_id = db.Column(db.Integer, db.ForeignKey('genres.id', ondelete='SET NULL'))
     genres = db.relationship('Genres', secondary=genre_movie, backref=db.backref('movies', lazy='dynamic'), passive_deletes="all")
 
     def __repr__(self):
         return self.title
-    
-

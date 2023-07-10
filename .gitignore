@@ -1,2 +1,4 @@
 postgres/database/*
 app/app/static/media/*
+
+**__pycache__

@@ -1,26 +1,22 @@
-import sys
-import datetime
+import sys, datetime
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 from app.settings import Config
-from .api import apispec_docs
-
+from loguru import logger
 
 
 app = Flask(__name__)
 app.config.from_object(Config)
-# app.config.from_file('settings.py')
 
-bcrypt = Bcrypt(app)
-
-# life time session
-app.permanent_session_lifetime = datetime.timedelta(days=10)
 
 # add root path
 sys.path.append(app.config.get('ROOT_PATH'))
+
+# life time session
+app.permanent_session_lifetime = datetime.timedelta(days=10)
 
 # flask login
 login_manager = LoginManager(app)
@@ -35,8 +31,16 @@ db = SQLAlchemy(app)
 # class instance Migrate
 migrate = Migrate(app, db, compare_type=True)
 
-# # docs api
-apispec_docs(app)
+# шыфрование
+bcrypt = Bcrypt(app)
+
+# logging loguru
+logger.add("loggs/loggs_app/debug.log", 
+           format="{time} - [{level}] : {message}", 
+           level="DEBUG", 
+           rotation="10 KB", 
+           compression="zip")
+
 
 
 @app.shell_context_processor

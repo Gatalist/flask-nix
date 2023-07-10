@@ -28,7 +28,8 @@ services:
         # open container -> create to migrate and add data
         container_name: flask_app
         build: ./app
-        command: gunicorn --bind 0.0.0.0:5000 run:app
+        # command: gunicorn --bind 0.0.0.0:5000 run:app
+        command: python run.py
         restart: always
         ports:
             - "5000:5000"

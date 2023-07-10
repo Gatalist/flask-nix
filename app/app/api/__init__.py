@@ -1,21 +1,13 @@
-from apispec.ext.marshmallow import MarshmallowPlugin
-from apispec import APISpec
-from flask_apispec.extension import FlaskApiSpec
+from flask_restful import Api
+from app import app
+from .swagger_doc import Apispec_docs
+from .routes import MoviesAPI
 
 
-# create docs api
-def apispec_docs(app: object):
-    docs = FlaskApiSpec()
-    docs.init_app(app)
-    # swagger settings
-    app.config.update({
-        'APISPES_SPEC': APISpec(
-            title='Video',
-            version='v1',
-            openapi_version='2.0',
-            plugins=[MarshmallowPlugin()],
-        ),
-        'APISPEC_SWAGGER_URL': '/swagger/'
-    })
+api = Api(app)
+docs = Apispec_docs(app)
 
-    return docs, app
+
+api.add_resource(MoviesAPI, '/movies')
+
+docs.register(MoviesAPI)

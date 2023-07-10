@@ -1,25 +1,31 @@
 import os
+from dotenv import load_dotenv
+from pathlib import Path
+
+
+dotenv_path = Path('.env')
+load_dotenv(dotenv_path=dotenv_path)
+
 
 
 class Config(object):
     DEBUG: bool = True
-    # HOST: str = "127.0.0.1"
     HOST: str = "0.0.0.0"
     
     PORT: int = 5000
 
-    db_uri: str = 'postgresql'
-    db_user: str = 'user_db'
-    db_pass: str = 'xEhs5hU26nDNdeC'
-    db_name: str = 'nix_db' # data base name
-    db_addr: str = 'db_nix' # container_name to docker
+    # db_uri: str = 'postgresql'
+    db_uri: str = os.getenv('db_uri')
+    db_user: str = os.getenv('db_user')
+    db_pass: str = os.getenv('db_pass')
+    db_name: str = os.getenv('db_name')  # data base name
+    db_addr: str = os.getenv('db_addr')  # container_name to docker
 
     # TESTING = False
     # CSRF_ENABLED = True
 
-    SECRET_KEY = '$%UHGD#O%$^htrfgolk546-fd[ssk;435gf'
+    SECRET_KEY = os.getenv('SECRET_KEY')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    # SQLALCHEMY_DATABASE_URI = f'{db_uri}://{db_user}:{db_pass}@localhost/{db_name}'
     SQLALCHEMY_DATABASE_URI = f'{db_uri}://{db_user}:{db_pass}@{db_addr}/{db_name}'
     
     ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
@@ -30,12 +36,13 @@ class Config(object):
 
 
     # URLs
-    SECURITY_URL_PREFIX = "/admin"
+    ADMIN_URL = "/admin"
+    SECURITY_URL_PREFIX = ADMIN_URL
     SECURITY_LOGIN_URL = "/login/"
     SECURITY_LOGOUT_URL = "/logout/"
-    SECURITY_POST_LOGIN_VIEW = "/admin/"
-    SECURITY_POST_LOGOUT_VIEW = "/admin/"
-    SECURITY_POST_REGISTER_VIEW = "/admin/"
+    SECURITY_POST_LOGIN_VIEW = ADMIN_URL
+    SECURITY_POST_LOGOUT_VIEW = ADMIN_URL
+    SECURITY_POST_REGISTER_VIEW = ADMIN_URL
 
     # Включает регистрацию
     SECURITY_REGISTERABLE = True
@@ -57,8 +64,8 @@ class Config(object):
     # MAX_CONTENT_LENGTH = 2000 * 1024  # 1 mb
 
 
-    SECURITY_PASSWORD_SALT = 'nix-solt'
-    SECURITY_PASSWORD_HASH = 'bcrypt'
+    SECURITY_PASSWORD_SALT = os.getenv('SECURITY_SALT')
+    SECURITY_PASSWORD_HASH = os.getenv('SECURITY_HASH')
 
 
 # class ProdConfig(Config):

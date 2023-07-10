@@ -1,19 +1,31 @@
 <div class="card-group">
     {% if movies.count() > 0 %}
         {% for movie in pages.items %}
-            <div class="col-3 px-1">
-                <div class="card mt-5">
-                    <img src="{{movie.poster}}" width=253, height=370, class="card-img-top" alt="{{movie.title}}">
+            <div class="col-3 px-1 mt-2">
+                <div class="card h-100">
+                    <img src="{{movie.poster}}" width=250 height=300 class="card-img-top" alt="{{movie.title}}">
                     <div class="card-body">
-                        <a href="#" class="card-link"><h5 class="card-title"><b>{{movie.title}}</b></h5></a>
-                        <p class="card-text">rating: {{movie.rating}}</p>
-                        <p class="card-text">reliase: {{movie.reliase}}</p>
-                        {% if movie.director %}
-                        <p class="card-text">director: {{movie.director}}</p>
-                        {% else %}
-                            <p class="card-text">director: unknown</p>
-                        {% endif %}
-                        <p class="card-text">genres: {% for genre in movie.genres %} {{genre}} {% endfor %}</p>
+                        <a href="#" class="card-link">
+                            <h6 class="card-title"><b>{{movie.title}}</b></h6>
+                        </a>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                rating: {{movie.rating}}
+                            </li>
+                            <li class="list-group-item">
+                                reliase: {{movie.reliase}}
+                            </li>
+                            <li class="list-group-item">
+                                {% if movie.director %}
+                                    director: {{movie.director}},
+                                {% else %}
+                                    director: unknown
+                                {% endif %}
+                            </li>
+                            <li class="list-group-item">
+                                genres: {% for genre in movie.genres %} {{genre}}, {% endfor %}
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -26,3 +38,4 @@
         </div>
     {% endif %}
 </div>
+
